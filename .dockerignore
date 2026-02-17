@@ -8,3 +8,6 @@ config/
 *.md
 LICENSE
 assets/
+node_modules
+tmp
+*.log
