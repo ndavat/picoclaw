@@ -14,6 +14,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 
@@ -223,6 +224,17 @@ func createCodexAuthProvider() (LLMProvider, error) {
 func CreateProvider(cfg *config.Config) (LLMProvider, error) {
 	model := cfg.Agents.Defaults.Model
 	providerName := strings.ToLower(cfg.Agents.Defaults.Provider)
+
+	// Allow quick override from environment for Render/runtime (do not print values)
+	if cfg.Providers.OpenRouter.APIKey == "" {
+		if v := os.Getenv("PICOCLAW_PROVIDERS_OPENROUTER_API_KEY"); v != "" {
+			cfg.Providers.OpenRouter.APIKey = v
+			logger.DebugCF("providers", "OpenRouter API key loaded from env", map[string]interface{}{"env": "PICOCLAW_PROVIDERS_OPENROUTER_API_KEY"})
+		} else if v := os.Getenv("OPENROUTER_API_KEY"); v != "" {
+			cfg.Providers.OpenRouter.APIKey = v
+			logger.DebugCF("providers", "OpenRouter API key loaded from env", map[string]interface{}{"env": "OPENROUTER_API_KEY"})
+		}
+	}
 
 	// Debug: record requested model/provider and which provider API keys are present (keys are masked)
 	logger.DebugCF("providers", "CreateProvider called", map[string]interface{}{
