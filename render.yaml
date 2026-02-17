@@ -21,7 +21,9 @@ services:
       # Secrets — set these in the Render dashboard (do NOT store real keys in repo)
       - key: OPENROUTER_API_KEY
         value: "<set-in-render-dashboard>"
-      - key: TELEGRAM_BOT_TOKEN
+      - key: PICOCLAW_CHANNELS_TELEGRAM_ENABLED
+        value: "true"
+      - key: PICOCLAW_CHANNELS_TELEGRAM_TOKEN
         value: "<set-in-render-dashboard>"
     # Start the lightweight render server binary (avoid running full `picoclaw` gateway)
     startCommand: "/usr/local/bin/picoclaw-render"
