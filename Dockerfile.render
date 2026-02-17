@@ -10,5 +10,8 @@ FROM alpine:3.18
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /app/picoclaw-render /usr/local/bin/picoclaw-render
 EXPOSE 8080
+# Ensure the default agent model/provider inside this image is OpenRouter (avoids fallback to glm-4.7)
 ENV PORT=8080
+ENV PICOCLAW_AGENTS_DEFAULTS_MODEL=openrouter/auto
+ENV PICOCLAW_AGENTS_DEFAULTS_PROVIDER=openrouter
 ENTRYPOINT ["/usr/local/bin/picoclaw-render"]
