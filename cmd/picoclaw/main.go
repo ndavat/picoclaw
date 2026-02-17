@@ -402,6 +402,7 @@ func agentCmd() {
 	provider, err := providers.CreateProvider(cfg)
 	if err != nil {
 		fmt.Printf("Error creating provider: %v\n", err)
+		logger.ErrorCF("startup", "Error creating provider", map[string]interface{}{"error": err.Error(), "model": cfg.Agents.Defaults.Model, "provider": cfg.Agents.Defaults.Provider})
 		os.Exit(1)
 	}
 
@@ -537,6 +538,7 @@ func gatewayCmd() {
 	provider, err := providers.CreateProvider(cfg)
 	if err != nil {
 		fmt.Printf("Error creating provider: %v\n", err)
+		logger.ErrorCF("startup", "Error creating provider", map[string]interface{}{"error": err.Error(), "model": cfg.Agents.Defaults.Model, "provider": cfg.Agents.Defaults.Provider})
 		os.Exit(1)
 	}
 

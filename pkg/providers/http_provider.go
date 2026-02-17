@@ -19,6 +19,7 @@ import (
 
 	"github.com/sipeed/picoclaw/pkg/auth"
 	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/sipeed/picoclaw/pkg/logger"
 )
 
 type HTTPProvider struct {
@@ -223,6 +224,17 @@ func CreateProvider(cfg *config.Config) (LLMProvider, error) {
 	model := cfg.Agents.Defaults.Model
 	providerName := strings.ToLower(cfg.Agents.Defaults.Provider)
 
+	// Debug: record requested model/provider and which provider API keys are present (keys are masked)
+	logger.DebugCF("providers", "CreateProvider called", map[string]interface{}{
+		"model":                 model,
+		"providerName":          providerName,
+		"openrouter_configured": cfg.Providers.OpenRouter.APIKey != "",
+		"openai_configured":     cfg.Providers.OpenAI.APIKey != "",
+		"anthropic_configured":  cfg.Providers.Anthropic.APIKey != "",
+		"zhipu_configured":      cfg.Providers.Zhipu.APIKey != "",
+		"groq_configured":       cfg.Providers.Groq.APIKey != "",
+	})
+
 	var apiKey, apiBase, proxy string
 
 	lowerModel := strings.ToLower(model)
@@ -336,6 +348,8 @@ func CreateProvider(cfg *config.Config) (LLMProvider, error) {
 
 	}
 
+	logger.DebugCF("providers", "After explicit provider selection", map[string]interface{}{"providerName": providerName, "apiKeySet": apiKey != "", "apiBaseSet": apiBase != "", "proxy": proxy})
+
 	// Fallback: detect provider from model name
 	if apiKey == "" && apiBase == "" {
 		switch {
@@ -433,12 +447,14 @@ func CreateProvider(cfg *config.Config) (LLMProvider, error) {
 					apiBase = "https://openrouter.ai/api/v1"
 				}
 			} else {
+				logger.ErrorCF("providers", "fallback detection: no provider API key found for model", map[string]interface{}{"model": model, "providerName": providerName, "openrouter_configured": cfg.Providers.OpenRouter.APIKey != "", "openai_configured": cfg.Providers.OpenAI.APIKey != "", "anthropic_configured": cfg.Providers.Anthropic.APIKey != ""})
 				return nil, fmt.Errorf("no API key configured for model: %s", model)
 			}
 		}
 	}
 
 	if apiKey == "" && !strings.HasPrefix(model, "bedrock/") {
+		logger.ErrorCF("providers", "No API key configured for provider (final check)", map[string]interface{}{"model": model, "providerName": providerName, "openrouter_configured": cfg.Providers.OpenRouter.APIKey != "", "openai_configured": cfg.Providers.OpenAI.APIKey != "", "anthropic_configured": cfg.Providers.Anthropic.APIKey != ""})
 		return nil, fmt.Errorf("no API key configured for provider (model: %s)", model)
 	}
 
@@ -446,5 +462,6 @@ func CreateProvider(cfg *config.Config) (LLMProvider, error) {
 		return nil, fmt.Errorf("no API base configured for provider (model: %s)", model)
 	}
 
+	logger.InfoCF("providers", "Provider selected", map[string]interface{}{"model": model, "apiBase": apiBase, "has_api_key": apiKey != "", "proxy": proxy})
 	return NewHTTPProvider(apiKey, apiBase, proxy), nil
 }
