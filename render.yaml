@@ -36,6 +36,6 @@ cron:
     schedule: "*/14 * * * *"
     env: docker
     dockerfilePath: Dockerfile.render
-    # Replace the URL below with your service's public URL (e.g. https://picoclaw-openrouter.onrender.com)
+    # Pings the /health endpoint to keep free-tier service from idling
     startCommand: >
-      sh -lc "curl -fsS --max-time 10 https://YOUR_PUBLIC_URL/health || true"
+      sh -lc "curl -fsS --max-time 10 https://picoclaw-25q6.onrender.com/health || true"
