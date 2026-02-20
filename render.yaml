@@ -29,3 +29,13 @@ services:
     startCommand: "/usr/local/bin/picoclaw-render"
     routes:
       - type: web
+  # Cron job to keep free-tier Render web services awake by pinging /health
+cron:
+  - name: keep-awake
+    # Run every 14 minutes (keeps the service from idling past ~15 minutes)
+    schedule: "*/14 * * * *"
+    env: docker
+    dockerfilePath: Dockerfile.render
+    # Replace the URL below with your service's public URL (e.g. https://picoclaw-openrouter.onrender.com)
+    startCommand: >
+      sh -lc "curl -fsS --max-time 10 https://YOUR_PUBLIC_URL/health || true"
