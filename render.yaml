@@ -38,4 +38,4 @@ cron:
     dockerfilePath: Dockerfile.render
     # Pings the /health endpoint to keep free-tier service from idling
     startCommand: >
-      sh -lc "curl -fsS --max-time 10 https://picoclaw-25q6.onrender.com/health || true"
+      sh -lc "curl -fsS --max-time 10 http://0.0.0.0:18790/health || true"
