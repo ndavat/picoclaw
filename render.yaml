@@ -1,12 +1,11 @@
 services:
   - type: web
-    name: picoclaw-openrouter
+    name: picoclaw-gateway
     env: docker
     branch: render-openrouter-deploy
     dockerfilePath: Dockerfile
     plan: free
     autoDeploy: true
-    # Ensure PicoClaw uses OpenRouter model and provider rather than the default glm-4.7
     envVars:
       - key: PORT
         value: "8080"
@@ -16,14 +15,13 @@ services:
         value: llama-3.3-70b
       - key: PICOCLAW_AGENTS_DEFAULTS_PROVIDER
         value: groq
-      # Secrets — set these in the Render dashboard
       - key: PICOCLAW_PROVIDERS_GROQ_API_KEY
         value: "<set-in-render-dashboard>"
       - key: GROQ_API_KEY
         value: "<set-in-render-dashboard>"
-      - key: MODEL_NAME
-        value: llama-3.3-70b-versatile
       - key: PICOCLAW_CHANNELS_TELEGRAM_ENABLED
         value: "true"
       - key: PICOCLAW_CHANNELS_TELEGRAM_TOKEN
         value: "<set-in-render-dashboard>"
+    # Use full gateway on Render
+    startCommand: "/usr/local/bin/picoclaw gateway"

@@ -2,6 +2,7 @@ package telegram
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -40,13 +41,15 @@ var (
 
 type TelegramChannel struct {
 	*channels.BaseChannel
-	bot      *telego.Bot
-	bh       *telegohandler.BotHandler
-	commands TelegramCommander
-	config   *config.Config
-	chatIDs  map[string]int64
-	ctx      context.Context
-	cancel   context.CancelFunc
+	bot        *telego.Bot
+	bh         *telegohandler.BotHandler
+	commands   TelegramCommander
+	config     *config.Config
+	chatIDs    map[string]int64
+	ctx        context.Context
+	cancel     context.CancelFunc
+	updateChan chan telego.Update
+	isWebhook  bool
 }
 
 func NewTelegramChannel(cfg *config.Config, bus *bus.MessageBus) (*TelegramChannel, error) {
@@ -97,16 +100,38 @@ func NewTelegramChannel(cfg *config.Config, bus *bus.MessageBus) (*TelegramChann
 }
 
 func (c *TelegramChannel) Start(ctx context.Context) error {
-	logger.InfoC("telegram", "Starting Telegram bot (polling mode)...")
-
 	c.ctx, c.cancel = context.WithCancel(ctx)
 
-	updates, err := c.bot.UpdatesViaLongPolling(c.ctx, &telego.GetUpdatesParams{
-		Timeout: 30,
-	})
-	if err != nil {
-		c.cancel()
-		return fmt.Errorf("failed to start long polling: %w", err)
+	var updates <-chan telego.Update
+	var err error
+
+	externalURL := os.Getenv("RENDER_EXTERNAL_URL")
+	if externalURL != "" {
+		c.isWebhook = true
+		c.updateChan = make(chan telego.Update, 100)
+		updates = c.updateChan
+
+		webhookURL := fmt.Sprintf("%s/webhook/telegram", externalURL)
+		logger.InfoCF("telegram", "Starting Telegram bot (webhook mode)...", map[string]any{
+			"url": webhookURL,
+		})
+
+		err = c.bot.SetWebhook(&telego.SetWebhookParams{
+			URL: webhookURL,
+		})
+		if err != nil {
+			c.cancel()
+			return fmt.Errorf("failed to set webhook: %w", err)
+		}
+	} else {
+		logger.InfoC("telegram", "Starting Telegram bot (polling mode)...")
+		updates, err = c.bot.UpdatesViaLongPolling(c.ctx, &telego.GetUpdatesParams{
+			Timeout: 30,
+		})
+		if err != nil {
+			c.cancel()
+			return fmt.Errorf("failed to start long polling: %w", err)
+		}
 	}
 
 	bh, err := telegohandler.NewBotHandler(c.bot, updates)
@@ -139,11 +164,40 @@ func (c *TelegramChannel) Start(ctx context.Context) error {
 	c.SetRunning(true)
 	logger.InfoCF("telegram", "Telegram bot connected", map[string]any{
 		"username": c.bot.Username(),
+		"mode":     map[bool]string{true: "webhook", false: "polling"}[c.isWebhook],
 	})
 
 	go bh.Start()
 
 	return nil
+}
+
+func (c *TelegramChannel) WebhookPath() string {
+	return "/webhook/telegram"
+}
+
+func (c *TelegramChannel) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if !c.isWebhook || c.updateChan == nil {
+		http.Error(w, "webhook not initialized", http.StatusServiceUnavailable)
+		return
+	}
+
+	var update telego.Update
+	if err := json.NewDecoder(r.Body).Decode(&update); err != nil {
+		logger.ErrorCF("telegram", "Failed to decode webhook update", map[string]any{
+			"error": err.Error(),
+		})
+		http.Error(w, "bad request", http.StatusBadRequest)
+		return
+	}
+
+	select {
+	case c.updateChan <- update:
+		w.WriteHeader(http.StatusOK)
+	case <-time.After(1 * time.Second):
+		logger.WarnC("telegram", "Webhook update channel full, dropping update")
+		http.Error(w, "buffer full", http.StatusServiceUnavailable)
+	}
 }
 
 func (c *TelegramChannel) Stop(ctx context.Context) error {
