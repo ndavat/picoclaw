@@ -47,7 +47,10 @@ func main() {
 			http.Error(w, "prompt is required", http.StatusBadRequest)
 			return
 		}
-		apiKey := os.Getenv("GROQ_API_KEY")
+		apiKey := os.Getenv("PICOCLAW_PROVIDERS_GROQ_API_KEY")
+		if apiKey == "" {
+			apiKey = os.Getenv("GROQ_API_KEY")
+		}
 		if apiKey == "" {
 			http.Error(w, "GROQ_API_KEY is not set", http.StatusInternalServerError)
 			return
