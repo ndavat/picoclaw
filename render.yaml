@@ -9,7 +9,7 @@ services:
     # Ensure PicoClaw uses OpenRouter model and provider rather than the default glm-4.7
     envVars:
       - key: PORT
-        value: "18790"
+        value: "8080"
       - key: TZ
         value: America/Chicago
       - key: PICOCLAW_AGENTS_DEFAULTS_MODEL
@@ -27,7 +27,3 @@ services:
         value: "true"
       - key: PICOCLAW_CHANNELS_TELEGRAM_TOKEN
         value: "<set-in-render-dashboard>"
-    # Start the lightweight render server binary (avoid running full `picoclaw` gateway)
-    startCommand: "/usr/local/bin/picoclaw-render"
-    routes:
-      - type: web
