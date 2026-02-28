@@ -23,7 +23,7 @@ func main() {
 	}
 	model := os.Getenv("MODEL_NAME")
 	if model == "" {
-		model = "openrouter/auto"
+		model = "llama-3.3-70b-versatile"
 	}
 
 	mux := http.NewServeMux()
@@ -47,16 +47,16 @@ func main() {
 			http.Error(w, "prompt is required", http.StatusBadRequest)
 			return
 		}
-		apiKey := os.Getenv("OPENROUTER_API_KEY")
+		apiKey := os.Getenv("GROQ_API_KEY")
 		if apiKey == "" {
-			http.Error(w, "OPENROUTER_API_KEY is not set", http.StatusInternalServerError)
+			http.Error(w, "GROQ_API_KEY is not set", http.StatusInternalServerError)
 			return
 		}
 
-		respBody, err := callOpenRouter(r.Context(), apiKey, model, req.Prompt)
+		respBody, err := callGroq(r.Context(), apiKey, model, req.Prompt)
 		if err != nil {
-			log.Printf("openrouter error: %v", err)
-			http.Error(w, fmt.Sprintf("openrouter error: %v", err), http.StatusBadGateway)
+			log.Printf("groq error: %v", err)
+			http.Error(w, fmt.Sprintf("groq error: %v", err), http.StatusBadGateway)
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
@@ -75,7 +75,7 @@ func main() {
 	}
 }
 
-func callOpenRouter(ctx context.Context, apiKey, model, prompt string) (map[string]interface{}, error) {
+func callGroq(ctx context.Context, apiKey, model, prompt string) (map[string]interface{}, error) {
 	client := &http.Client{Timeout: 20 * time.Second}
 	payload := map[string]interface{}{
 		"model": model,
@@ -84,7 +84,7 @@ func callOpenRouter(ctx context.Context, apiKey, model, prompt string) (map[stri
 		},
 	}
 	b, _ := json.Marshal(payload)
-	req, err := http.NewRequestWithContext(ctx, "POST", "https://openrouter.ai/api/v1/chat/completions", bytes.NewReader(b))
+	req, err := http.NewRequestWithContext(ctx, "POST", "https://api.groq.com/openai/v1/chat/completions", bytes.NewReader(b))
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func callOpenRouter(ctx context.Context, apiKey, model, prompt string) (map[stri
 	}
 	var parsed map[string]interface{}
 	if err := json.Unmarshal(data, &parsed); err != nil {
-		return nil, fmt.Errorf("invalid openrouter response: %w", err)
+		return nil, fmt.Errorf("invalid groq response: %w", err)
 	}
 	modelResp := extractModelText(parsed)
 	if modelResp != "" {

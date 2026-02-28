@@ -145,24 +145,24 @@ func (s *Server) chatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	apiKey := os.Getenv("PICOCLAW_PROVIDERS_OPENROUTER_API_KEY")
+	apiKey := os.Getenv("PICOCLAW_PROVIDERS_GROQ_API_KEY")
 	if apiKey == "" {
-		apiKey = os.Getenv("OPENROUTER_API_KEY")
+		apiKey = os.Getenv("GROQ_API_KEY")
 	}
 	if apiKey == "" {
 		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{"error": "OPENROUTER_API_KEY not set"})
+		json.NewEncoder(w).Encode(map[string]string{"error": "GROQ_API_KEY not set"})
 		return
 	}
 
 	reqBody := map[string]interface{}{
-		"model":    "openrouter/auto",
+		"model":    "llama-3.3-70b-versatile",
 		"messages": []map[string]string{{"role": "user", "content": payload.Prompt}},
 	}
 	b, _ := json.Marshal(reqBody)
 
 	client := &http.Client{Timeout: 20 * time.Second}
-	req, err := http.NewRequestWithContext(r.Context(), "POST", "https://openrouter.ai/api/v1/chat/completions", bytes.NewReader(b))
+	req, err := http.NewRequestWithContext(r.Context(), "POST", "https://api.groq.com/openai/v1/chat/completions", bytes.NewReader(b))
 	if err != nil {
 		http.Error(w, "failed to create request", http.StatusInternalServerError)
 		return
@@ -172,7 +172,7 @@ func (s *Server) chatHandler(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		http.Error(w, "failed to call OpenRouter", http.StatusBadGateway)
+		http.Error(w, "failed to call Groq", http.StatusBadGateway)
 		return
 	}
 	defer resp.Body.Close()
