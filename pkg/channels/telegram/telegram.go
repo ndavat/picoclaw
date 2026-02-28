@@ -116,7 +116,7 @@ func (c *TelegramChannel) Start(ctx context.Context) error {
 			"url": webhookURL,
 		})
 
-		err = c.bot.SetWebhook(&telego.SetWebhookParams{
+		err = c.bot.SetWebhook(c.ctx, &telego.SetWebhookParams{
 			URL: webhookURL,
 		})
 		if err != nil {
