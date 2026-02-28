@@ -4,6 +4,8 @@ FROM golang:alpine AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
 COPY . .
+# Install git for dependency resolution
+RUN apk add --no-cache git
 # Update go.sum
 RUN go mod tidy
 # Prepare embedded files for the onboard command
