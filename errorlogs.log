@@ -1,0 +1,121 @@
+==> Downloading cache...
+==> Cloning from https://github.com/ndavat/picoclaw
+==> Checking out commit ac666964d53404d978864d1bdc937b89b86d9e4c in branch render-openrouter-deploy
+Menu
+==> Downloaded 2.2GB in 12s. Extraction took 78s.
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.15kB done
+#1 DONE 0.0s
+#2 [auth] library/alpine:pull render-prod/docker-mirror-repository/library/alpine:pull token for us-west1-docker.pkg.dev
+#2 DONE 0.0s
+#3 [auth] library/golang:pull render-prod/docker-mirror-repository/library/golang:pull token for us-west1-docker.pkg.dev
+#3 DONE 0.0s
+#4 [internal] load metadata for docker.io/library/golang:1.26.0-alpine
+#4 ...
+#5 [internal] load metadata for docker.io/library/alpine:3.23
+#5 DONE 0.5s
+#4 [internal] load metadata for docker.io/library/golang:1.26.0-alpine
+#4 DONE 0.6s
+#6 [internal] load .dockerignore
+#6 transferring context: 32B
+#6 transferring context: 144B done
+#6 DONE 0.0s
+#7 importing cache manifest from local:7867544446745014134
+#7 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+#7 DONE 0.0s
+#8 [builder 1/7] FROM docker.io/library/golang:1.26.0-alpine@sha256:d4c4845f5d60c6a974c6000ce58ae079328d03ab7f721a0734277e69905473e5
+#8 resolve docker.io/library/golang:1.26.0-alpine@sha256:d4c4845f5d60c6a974c6000ce58ae079328d03ab7f721a0734277e69905473e5 0.0s done
+#8 DONE 0.0s
+#9 [stage-1 1/5] FROM docker.io/library/alpine:3.23@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
+#9 resolve docker.io/library/alpine:3.23@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659 0.0s done
+#9 DONE 0.0s
+#10 [internal] load build context
+#10 transferring context: 1.31MB 0.1s done
+#10 DONE 0.2s
+#11 [builder 4/7] COPY go.mod go.sum ./
+#11 CACHED
+#12 [builder 2/7] RUN apk add --no-cache git make
+#12 CACHED
+#13 [builder 6/7] COPY . .
+#13 CACHED
+#14 [stage-1 4/5] RUN addgroup -g 1000 picoclaw &&     adduser -D -u 1000 -G picoclaw picoclaw
+#14 CACHED
+#15 [builder 3/7] WORKDIR /src
+#15 CACHED
+#16 [builder 5/7] RUN go mod download
+#16 CACHED
+#17 [builder 7/7] RUN make build
+#17 CACHED
+#18 [stage-1 3/5] COPY --from=builder /src/build/picoclaw /usr/local/bin/picoclaw
+#18 CACHED
+#19 [stage-1 2/5] RUN apk add --no-cache ca-certificates tzdata curl
+#19 CACHED
+#20 [stage-1 5/5] RUN /usr/local/bin/picoclaw onboard
+#20 sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153 3.86MB / 3.86MB 0.0s done
+#20 extracting sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153 0.1s done
+#20 sha256:168f5d88da2838051c902c15dda6891b5b222903c416cb5fce9abd42feccc509 2.99MB / 2.99MB 0.0s done
+#20 extracting sha256:168f5d88da2838051c902c15dda6891b5b222903c416cb5fce9abd42feccc509
+#20 extracting sha256:168f5d88da2838051c902c15dda6891b5b222903c416cb5fce9abd42feccc509 7.9s done
+#20 sha256:4a8eea6890df499dff721ec7a819753da695ef022da5559894fb5ef35b83ec57 6.28MB / 6.28MB 0.1s done
+#20 extracting sha256:4a8eea6890df499dff721ec7a819753da695ef022da5559894fb5ef35b83ec57
+#20 extracting sha256:4a8eea6890df499dff721ec7a819753da695ef022da5559894fb5ef35b83ec57 14.5s done
+#20 sha256:4762c5ae9e8ed564932b6255903a10f5310bb1f1ab37d650344fb8df5bf252cc 947B / 947B done
+#20 extracting sha256:4762c5ae9e8ed564932b6255903a10f5310bb1f1ab37d650344fb8df5bf252cc 0.1s done
+#20 sha256:b76efcb765c5184c95f7bd5c75abe9f87f86182f20f47e8e6cb484cd9a601353 19.83kB / 19.83kB done
+#20 extracting sha256:b76efcb765c5184c95f7bd5c75abe9f87f86182f20f47e8e6cb484cd9a601353 0.0s done
+#20 CACHED
+#21 exporting to docker image format
+#21 exporting layers done
+#21 exporting manifest sha256:fd136ad0500fed7818d8d7e62906211cd1bf104d4bd95a08bc27a0ff6c30d76f done
+#21 exporting config sha256:e0571df392fd68f21944fe56d2a883d1064b0e85d55f81fbc72f2568135c3d88 done
+#21 DONE 0.1s
+#22 exporting cache to client directory
+#22 preparing build cache for export
+#22 sha256:54e3cee16f61a04c1478b0bea063f6591a583f68c5ec96ad17bd6022fc6cf49e 296.08kB / 296.08kB done
+#22 extracting sha256:54e3cee16f61a04c1478b0bea063f6591a583f68c5ec96ad17bd6022fc6cf49e
+#22 extracting sha256:54e3cee16f61a04c1478b0bea063f6591a583f68c5ec96ad17bd6022fc6cf49e 1.0s done
+#22 sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c 31.46MB / 67.18MB 0.2s
+#22 sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c 60.82MB / 67.18MB 0.3s
+#22 sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c 67.18MB / 67.18MB 0.5s
+#22 sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c 67.18MB / 67.18MB 0.9s done
+#22 extracting sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c
+#22 extracting sha256:8ede2856567d2593950de6f98f5d2763ae304caeb0ff577a1318c065a8fd650c 19.3s done
+#22 sha256:620ce275e86ec364135f603517679f51437c2da390313e710d0f78203dbae68a 126B / 126B done
+#22 extracting sha256:620ce275e86ec364135f603517679f51437c2da390313e710d0f78203dbae68a 0.0s done
+#22 sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B done
+#22 extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 0.1s done
+#22 sha256:54a4988c6059f1658d30300d7e5b31a96cf956a0986165271ad56d16f1423c7d 6.47MB / 6.47MB 0.0s done
+#22 extracting sha256:54a4988c6059f1658d30300d7e5b31a96cf956a0986165271ad56d16f1423c7d
+#22 extracting sha256:54a4988c6059f1658d30300d7e5b31a96cf956a0986165271ad56d16f1423c7d 0.8s done
+#22 sha256:518d204a7c3c86f4a016839ace5c33edf003b865a67cf63247f6e4ba5558d307 92B / 92B done
+#22 extracting sha256:518d204a7c3c86f4a016839ace5c33edf003b865a67cf63247f6e4ba5558d307
+#22 extracting sha256:518d204a7c3c86f4a016839ace5c33edf003b865a67cf63247f6e4ba5558d307 4.3s done
+#22 sha256:73bf3911429af8d34aef41dcae7d6908a037adabbbe3b0dd93644b6ee80ac3b0 10.96kB / 10.96kB done
+#22 extracting sha256:73bf3911429af8d34aef41dcae7d6908a037adabbbe3b0dd93644b6ee80ac3b0
+#22 extracting sha256:73bf3911429af8d34aef41dcae7d6908a037adabbbe3b0dd93644b6ee80ac3b0 6.5s done
+#22 sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 33.55MB / 134.87MB 0.2s
+#22 sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 67.11MB / 134.87MB 0.3s
+#22 sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 99.61MB / 134.87MB 0.5s
+#22 sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 133.17MB / 134.87MB 0.6s
+#22 sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 134.87MB / 134.87MB 1.1s done
+#22 extracting sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf
+#22 extracting sha256:98f5682cdce1c27716df5a07c6b4c9602f326e1ef81213a97f8eaf86c9f8efbf 36.4s done
+#22 sha256:e05b81d5309e6c2c5b56239787eac5445a5293dd43c5ec0cb4a254ccfea03169 310.09kB / 310.09kB 0.0s done
+#22 extracting sha256:e05b81d5309e6c2c5b56239787eac5445a5293dd43c5ec0cb4a254ccfea03169 0.1s done
+#22 sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 34.60MB / 115.88MB 0.2s
+#22 sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 65.01MB / 115.88MB 0.3s
+#22 sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 92.27MB / 115.88MB 0.5s
+#22 sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 115.88MB / 115.88MB 0.6s
+#22 sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 115.88MB / 115.88MB 1.5s done
+#22 extracting sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5
+#22 extracting sha256:a75fcefe1954bde09a85128b0debf40d1da815bc21b87bacab8de874b59427e5 21.0s done
+#22 writing cache image manifest sha256:46e914ae37447efd5a544071ab992c6c36dbe559bc0bcda4ebff53a1fbd1525c done
+#22 DONE 94.2s
+Pushing image to registry...
+Upload succeeded
+==> Deploying...
+==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
+Error creating provider: model "openrouter/auto" not found in model_list: model "openrouter/auto" not found in model_list or providers
+Error creating provider: model "openrouter/auto" not found in model_list: model "openrouter/auto" not found in model_list or providers
+==> Exited with status 1
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

@@ -15,7 +15,7 @@ services:
       - key: TZ
         value: America/Chicago
       - key: PICOCLAW_AGENTS_DEFAULTS_MODEL
-        value: openrouter/auto
+        value: openrouter-auto
       - key: PICOCLAW_AGENTS_DEFAULTS_PROVIDER
         value: openrouter
       # Secrets — set these in the Render dashboard (do NOT store real keys in repo)
