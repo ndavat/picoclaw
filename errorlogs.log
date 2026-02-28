@@ -1,64 +1,8 @@
-2026/02/28 00:25:41 [2026-02-28T00:25:41Z] [INFO] agent: Processing message from telegram:6312304539: Which llm {channel=telegram, chat_id=6312304539, sender_id=6312304539, session_key=telegram:6312304539}
-2026/02/28 00:25:42 [2026-02-28T00:25:42Z] [WARN] agent: Context window error detected, attempting compression {error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}, retry=0}
-2026/02/28 00:25:43 [2026-02-28T00:25:43Z] [WARN] agent: Context window error detected, attempting compression {error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}, retry=1}
-2026/02/28 00:25:43 [2026-02-28T00:25:43Z] [ERROR] agent: LLM call failed {iteration=1, error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}}
-2026/02/28 00:47:17 [2026-02-28T00:47:17Z] [WARN] agent: Context window error detected, attempting compression {retry=0, error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}}
-Menu
-2026/02/28 00:47:18 [2026-02-28T00:47:18Z] [WARN] agent: Context window error detected, attempting compression {error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}, retry=1}
-2026/02/28 00:47:18 [2026-02-28T00:47:18Z] [ERROR] agent: LLM call failed {iteration=1, error=API request failed:
-  Status: 402
-  Body:   {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1986. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account","code":402,"metadata":{"provider_name":null}},"user_id":"user_2ypYpPV9B3c7OhxYnRKKhM7tF70"}}
-==> Deploying...
-==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
-Error creating provider: model "openrouter/auto" not found in model_list: model "openrouter/auto" not found in model_list or providers
-Error creating provider: model "openrouter/auto" not found in model_list: model "openrouter/auto" not found in model_list or providers
-==> Exited with status 1
-==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
-==> Deploying...
-==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
-✓ Channels enabled: [telegram]
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] channels: Starting all channels
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] channels: Starting channel {channel=telegram}
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] telegram: Starting Telegram bot (polling mode)...
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] channels: Outbound dispatcher started
-✓ Gateway started on 0.0.0.0:18790
-Press Ctrl+C to stop
-✓ Cron service started
-✓ Heartbeat service started
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] telegram: Telegram bot connected {username=PrecisionPicoGripBot}
-2026/02/28 01:01:39 [2026-02-28T01:01:39Z] [INFO] channels: All channels started
-✓ Health endpoints available at http://0.0.0.0:18790/health and /ready
-[Sat Feb 28 01:01:39 UTC 2026] ERROR Getting updates: telego: getUpdates: api: 409 "Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"
-[Sat Feb 28 01:01:39 UTC 2026] ERROR Retrying getting updates in 8s...
-2026/02/28 01:01:40 [2026-02-28T01:01:40Z] [ERROR] agent: LLM call failed {agent_id=main, iteration=1, error=API request failed:
-  Status: 401
-  Body:   {"error":{"message":"No cookie auth credentials found","code":401}}}
-==> Your service is live 🎉
-==> 
-==> ///////////////////////////////////////////////////////////
-==> 
-==> Available at your primary URL https://picoclaw-25q6.onrender.com
-==> 
-==> ///////////////////////////////////////////////////////////
-2026/02/28 01:04:49 [2026-02-28T01:04:49Z] [INFO] agent: Processing message from telegram:6312304539: Ok {channel=telegram, chat_id=6312304539, sender_id=6312304539, session_key=}
-2026/02/28 01:04:49 [2026-02-28T01:04:49Z] [INFO] agent: Routed message {agent_id=main, session_key=agent:main:main, matched_by=default}
-2026/02/28 01:04:49 [2026-02-28T01:04:49Z] [ERROR] agent: LLM call failed {error=API request failed:
-  Status: 401
-  Body:   {"error":{"message":"No cookie auth credentials found","code":401}}, agent_id=main, iteration=1}
-==> Detected service running on port 18790
-==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
-2026/02/28 01:19:16 [2026-02-28T01:19:16Z] [INFO] agent: Processing message from telegram:6312304539: ok {channel=telegram, chat_id=6312304539, sender_id=6312304539, session_key=}
-2026/02/28 01:19:16 [2026-02-28T01:19:16Z] [INFO] agent: Routed message {agent_id=main, session_key=agent:main:main, matched_by=default}
-2026/02/28 01:19:16 [2026-02-28T01:19:16Z] [ERROR] agent: LLM call failed {error=API request failed:
-  Status: 401
-  Body:   {"error":{"message":"No cookie auth credentials found","code":401}}, agent_id=main, iteration=1}
+==> Downloading cache...
+==> Cloning from https://github.com/ndavat/picoclaw
+==> Checking out commit 21f61acd98ba791668eef415d680f930366bccf4 in branch render-openrouter-deploy
+==> Downloaded 2.5GB in 17s. Extraction took 3s.
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+error: failed to solve: failed to read dockerfile: open Dockerfile: no such file or directory
