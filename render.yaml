@@ -3,7 +3,7 @@ services:
     name: picoclaw-openrouter
     env: docker
     branch: render-openrouter-deploy
-    dockerfilePath: Dockerfile.render
+    dockerfilePath: Dockerfile
     plan: free
     autoDeploy: true
     # Ensure PicoClaw uses OpenRouter model and provider rather than the default glm-4.7
