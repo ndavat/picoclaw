@@ -4,6 +4,8 @@ FROM golang:alpine AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
 COPY . .
+# Prepare embedded files for the onboard command
+RUN cp -r workspace cmd/picoclaw/internal/onboard/
 # Build both binaries
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /app/picoclaw ./cmd/picoclaw
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /app/picoclaw-render ./cmd/render-openrouter
