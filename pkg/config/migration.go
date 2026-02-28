@@ -94,7 +94,7 @@ func ConvertProvidersToModelList(cfg *Config) []ModelConfig {
 					return ModelConfig{}, false
 				}
 				return ModelConfig{
-					ModelName: "openrouter",
+					ModelName: "openrouter/auto",
 					Model:     "openrouter/openrouter/auto",
 					APIKey:    p.OpenRouter.APIKey,
 					APIBase:   p.OpenRouter.APIBase,
