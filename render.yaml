@@ -9,6 +9,10 @@ services:
     envVars:
       - key: PORT
         value: "8080"
+      - key: PICOCLAW_GATEWAY_PORT
+        value: "8080"
+      - key: PICOCLAW_GATEWAY_HOST
+        value: "0.0.0.0"
       - key: TZ
         value: America/Chicago
       - key: PICOCLAW_AGENTS_DEFAULTS_MODEL

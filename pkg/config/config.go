@@ -489,7 +489,7 @@ func (c *ModelConfig) Validate() error {
 
 type GatewayConfig struct {
 	Host string `json:"host" env:"PICOCLAW_GATEWAY_HOST"`
-	Port int    `json:"port" env:"PICOCLAW_GATEWAY_PORT"`
+	Port int    `json:"port" env:"PICOCLAW_GATEWAY_PORT,PORT"`
 }
 
 type BraveConfig struct {
