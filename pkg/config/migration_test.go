@@ -581,3 +581,29 @@ func TestConvertProvidersToModelList_LegacyModelWithProtocolPrefix(t *testing.T)
 		t.Errorf("Model = %q, want %q (should not duplicate prefix)", result[0].Model, "openrouter/auto")
 	}
 }
+
+func TestConvertProvidersToModelList_OpenRouterDefault(t *testing.T) {
+	cfg := &Config{
+		Providers: ProvidersConfig{
+			OpenRouter: ProviderConfig{APIKey: "sk-or-test"},
+		},
+	}
+
+	result := ConvertProvidersToModelList(cfg)
+
+	found := false
+	for _, mc := range result {
+		if mc.ModelName == "openrouter/auto" {
+			found = true
+			if mc.Model != "openrouter/openrouter/auto" {
+				t.Errorf("Model = %q, want %q", mc.Model, "openrouter/openrouter/auto")
+			}
+			if mc.APIKey != "sk-or-test" {
+				t.Errorf("APIKey = %q, want %q", mc.APIKey, "sk-or-test")
+			}
+		}
+	}
+	if !found {
+		t.Error("OpenRouter default migration entry not found")
+	}
+}
