@@ -4,6 +4,8 @@ FROM golang:alpine AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
 COPY . .
+# Update go.sum
+RUN go mod tidy
 # Prepare embedded files for the onboard command
 RUN cp -r workspace cmd/picoclaw/internal/onboard/
 # Build both binaries
